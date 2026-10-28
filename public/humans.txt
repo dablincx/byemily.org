@@ -1,0 +1,18 @@
+/* TEAM */
+emily (dablincx / emilythegaycat) — she/her — backend, fullstack, selfhosting, sysadmin
+
+/* SITE */
+Last update: 2026/10/28
+Standards: HTML5, CSS3, ES2022, MDX
+Components: Next.js 16 (App Router, Turbopack), React 19, Tailwind v4
+Software: Node.js 20+, TypeScript 5, gray-matter, next-mdx-remote, feed, nodemailer
+Source: https://github.com/dablincx/byemily.org
+
+/* THANKS */
+to everyone who reads this :D
+to the open-source maintainers whose projects i used and code i leaned on <3
+
+/* SITE INFRASTRUCTURE */
+Hosting: self-hosted
+Mail: purelymail.org (i love purelymail <3333)
+Source control: git

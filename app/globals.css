@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+/* Raw variables so they survive @theme's remapping into Tailwind tokens. */
+:root {
+  --color-bg: #16140f;
+  --color-fg: #ece6d8;
+  --color-muted: #8a8276;
+  --color-accent: #d97757;
+  --color-accent-soft: #e8a87c;
+  --color-surface: #1f1c16;
+  --color-surface-2: #2a261d;
+  --color-border: #3a342a;
+
+  --font-serif:
+    var(--font-literata), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono:
+    var(--font-ibm-plex-mono), ui-monospace, "IBM Plex Mono", Menlo, Consolas,
+    monospace;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-fg: var(--color-fg);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-surface: var(--color-surface);
+  --color-surface-2: var(--color-surface-2);
+  --color-border: var(--color-border);
+
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-serif);
+  font-feature-settings: "ss01", "ss02";
+  /* Faint paper-grain noise. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85  0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-repeat: repeat;
+  /* Body fills exactly the visible viewport; <main> scrolls. dvh, not vh:
+   * on mobile, vh is taller than the screen and cuts off the bottom. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+a {
+  color: var(--color-accent-soft);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+.prose {
+  font-family: var(--font-serif);
+  max-width: 68ch;
+  line-height: 1.65;
+  font-size: 1.05rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  line-height: 1.25;
+}
+
+.prose h2 {
+  font-size: 1.6rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose li+li {
+  margin-top: 0.25em;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  background: var(--color-surface);
+  padding: 1em 1.1em;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  font-size: 0.92em;
+  line-height: 1.55;
+}
+
+.prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.prose a {
+  color: var(--color-accent-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px dashed var(--color-border);
+  margin: 2.5em 0;
+}
+
+/* Heading "#" links: on hover, or always (faint) without hover. */
+.prose .heading-anchor {
+  margin-left: 0.4em;
+  color: var(--color-border);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.prose :is(h1, h2, h3, h4):hover .heading-anchor,
+.prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .prose .heading-anchor {
+    opacity: 0.6;
+  }
+}
+
+.prose :is(h2, h3) {
+  scroll-margin-top: 1.5rem;
+}
+
+/* rehype-pretty-code; colors come from the shiki theme. */
+.prose figure[data-rehype-pretty-code-figure] {
+  margin: 1em 0;
+}
+
+.prose pre [data-line] {
+  padding-right: 0.5em;
+}
+
+.prose pre [data-highlighted-line] {
+  background: var(--color-surface-2);
+}
+
+.prose figcaption[data-rehype-pretty-code-title] {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--color-muted);
+  margin-bottom: 0.4em;
+}
+
+.prose img {
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  margin: 1.5em 0;
+}
+
+/* Print: paper colors, no chrome, URLs after links. */
+@media print {
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+  }
+
+  body {
+    background-image: none !important;
+  }
+
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  .prose,
+  .prose p,
+  .prose li {
+    color: #111111 !important;
+  }
+
+  .prose a {
+    color: #111111 !important;
+    text-decoration: underline !important;
+    text-decoration-color: #888 !important;
+  }
+
+  .prose a[href^="http"]::after,
+  .prose a[href^="/"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555 !important;
+  }
+
+  .prose pre,
+  .prose code {
+    background: #f3f0e8 !important;
+    color: #111111 !important;
+    border-color: #d3cfc4 !important;
+  }
+
+  .prose {
+    max-width: none !important;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    page-break-after: avoid;
+    color: #111111 !important;
+  }
+
+  .prose pre,
+  .prose blockquote,
+  .prose img,
+  .prose table {
+    page-break-inside: avoid;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-surface-2);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--color-accent);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Gives the empty terminal input a baseline, so the prompt doesn't
+ * shift when typing starts. */
+.terminal-input-editable::before {
+  content: "\200B";
+}
